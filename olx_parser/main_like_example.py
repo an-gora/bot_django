@@ -1,6 +1,7 @@
 import json
 import time
 import traceback
+from collections import namedtuple
 
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
@@ -11,6 +12,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
 BASE_URL = 'http://olx.ua'
+AllAds = namedtuple('Ad', 'city')
 
 
 class WaitSuggestion:
@@ -35,10 +37,11 @@ class WaitTextChange:
     def __call__(self, *args, **kwargs):
         return self.__div_text != self.__div.text
 
-class SingleAd():
+
+class SingleAd(AllAds):
 
     def __str__(self):
-        return f({self.})
+        return (f'{self.name}, {self.link}, {self.price}, {self.city}, {self.metr}')
 
 
 class Olx_parser:
@@ -106,26 +109,30 @@ class Olx_parser:
         rez = []
         for div in search_divs:
             try:
-                name = div.find_element_by_tag_name('h6').text
-                link = div.find_element_by_class_name('css-1bbgabe').get_attribute('href')
-                price, address, metr = [e.text for e in div.find_elements_by_tag_name('p')]
+                ad = SingleAd
+                SingleAd.name = div.find_element_by_tag_name('h6').text
+                SingleAd.link = div.find_element_by_class_name('css-1bbgabe').get_attribute('href')
+                SingleAd.price, city, SingleAd.metr = [e.text for e in div.find_elements_by_tag_name('p')]
+                SingleAd.city = city.rpartition(' - ')[0]
                 rez.append({
                     # "name": name, "price": price, "addr": address, "metr": metr, "link":link
-                    "name": name, "price": price, "addr": address, "metr": metr, "link": link
+                    "name": SingleAd.name, "price": SingleAd.price, "city": SingleAd.city, "metr": SingleAd.metr, "link": SingleAd.link
                 })
             except:
                 print(traceback.format_exc())
                 pass
         return rez
 
-    def to_json(self, rez):
-        with open("found.json", "w") as fp:
-            json.dump(rez, fp, indent=4, ensure_ascii=False)
+    # def to_json(self, rez):
+    #     with open("found.json", "w") as fp:
+    #         json.dump(rez, fp, indent=4, ensure_ascii=False)
 
     def collect_all(self):
         div_search_result = self.parse_olx()
         rez = self.save_results(div_search_result)
-        self.to_json(rez)
+        # self.to_json(rez)
+        for r in rez:
+            print(r)
 
 
 temp = Olx_parser()
