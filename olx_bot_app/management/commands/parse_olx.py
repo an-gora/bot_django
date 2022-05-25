@@ -1,15 +1,13 @@
-import json
 import time
 import traceback
 from collections import namedtuple
-
 from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
+from django.core.management.base import BaseCommand
+from olx_bot_app.models import Ad
+
 
 BASE_URL = 'http://olx.ua'
 AllAds = namedtuple('Ad', 'city')
@@ -50,7 +48,7 @@ class Olx_parser:
         self.all_ads = []
 
     def parse_olx(self):
-        d = webdriver.Chrome('../olx_bot_app/management/chromedriver_linux64/chromedriver')
+        d = webdriver.Chrome('../chromedriver_linux64/chromedriver')
         d.get(BASE_URL)
         # d.maximize_window()
         el = d.find_element_by_xpath('/html/body/div[1]/div[11]/button')
@@ -109,14 +107,14 @@ class Olx_parser:
         rez = []
         for div in search_divs:
             try:
-                ad = SingleAd
-                SingleAd.name = div.find_element_by_tag_name('h6').text
-                SingleAd.link = div.find_element_by_class_name('css-1bbgabe').get_attribute('href')
-                SingleAd.price, city, SingleAd.metr = [e.text for e in div.find_elements_by_tag_name('p')]
-                SingleAd.city = city.rpartition(' - ')[0]
+                ad = Ad
+                Ad.name = div.find_element_by_tag_name('h6').text
+                Ad.link = div.find_element_by_class_name('css-1bbgabe').get_attribute('href')
+                Ad.price, city, Ad.metr = [e.text for e in div.find_elements_by_tag_name('p')]
+                Ad.city = city.rpartition(' - ')[0]
                 rez.append({
                     # "name": name, "price": price, "addr": address, "metr": metr, "link":link
-                    "name": SingleAd.name, "price": SingleAd.price, "city": SingleAd.city, "metr": SingleAd.metr, "link": SingleAd.link
+                    "name": Ad.name, "price": Ad.price, "city": Ad.city, "metr": Ad.metr, "link": Ad.link
                 })
             except:
                 print(traceback.format_exc())
@@ -135,12 +133,10 @@ class Olx_parser:
             print(r)
 
 
-temp = Olx_parser()
-temp.collect_all()
+class Command(BaseCommand):
+    help = 'olx parsing'
 
-# def main():
-#     temp = Olx_parser()
-#     temp.collect_all()
-#
-# if __name__=='main':
-#     main()
+    def handle(self, *args, **options):
+        p = Olx_parser()
+        p.collect_all()
+
