@@ -1,55 +1,3 @@
-Skip
-to
-content
-Search or jump
-to…
-Pull
-requests
-Issues
-Marketplace
-Explore
-
-
-@an - gora
-
-
-an - gora
-/
-selenium_test
-Private
-Code
-Issues
-Pull
-requests
-Actions
-Projects
-Security
-Insights
-Settings
-selenium_test / olx_ua.py /
-
-
-@an - gora
-
-
-an - gora
-add
-Latest
-commit
-134
-c406
-2
-days
-ago
-History
-1
-contributor
-112
-lines(95
-sloc)  3.5
-KB
-IntelliJ
-IDEAPyCharm
 import json
 import time
 import traceback
@@ -159,22 +107,3 @@ with open("found.json", "w") as fp:
     json.dump(rez, fp, indent=4, ensure_ascii=False)
 
 # d.close()
-
-
-# добавить - сохранять ссылку, долгосрочная аренда, критерии - комнат, цена от до, комнат ? генерировать в json ссылку
-© 2022
-GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact
-GitHub
-Pricing
-API
-Training
-Blog
-About
-Loading
-complete
