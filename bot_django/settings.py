@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'olx_bot_app'
+    'olx_bot_app',
 ]
 
 MIDDLEWARE = [

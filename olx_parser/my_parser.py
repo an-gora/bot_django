@@ -47,7 +47,7 @@ class Olx_parser:
         self.all_ads = []
 
     def parse_olx(self):
-        d = webdriver.Chrome('../olx_bot_app/management/commands/chromedriver_linux64/chromedriver')
+        d = webdriver.Chrome('../olx_bot_app/management/commands/chromedriver')
         d.get(BASE_URL)
         # d.maximize_window()
         el = d.find_element_by_xpath('/html/body/div[1]/div[11]/button')

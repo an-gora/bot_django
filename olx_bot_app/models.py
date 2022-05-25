@@ -12,9 +12,10 @@ class Ad(models.Model):
     title = models.TextField(verbose_name='Ads title', max_length=500)
     # city = models.ForeignKey(City, on_delete=models.PROTECT, default=None)
     city = models.CharField(verbose_name='City', max_length=150, blank=True)
-    price = models.PositiveIntegerField(verbose_name='Price for appartment', default=None)
-    metrs = models.FloatField(verbose_name='Square of appartment',default=None)
-    url = models.URLField(verbose_name='Url to ad', null=True, blank=True)
+    price = models.CharField(verbose_name='Price for rent', max_length=150, blank=True)
+    # price = models.PositiveIntegerField(verbose_name='Price for appartment', default=None)
+    metrs = models.CharField(verbose_name='City', max_length=150, blank=True)
+    url = models.URLField(verbose_name='Url to ad', null=True, blank=True, unique=True)
 
     class Meta:
         verbose_name = 'Ad'
