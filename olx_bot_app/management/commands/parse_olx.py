@@ -69,7 +69,7 @@ class Olx_parser:
             if link.text == 'Квартиры':
                 break
         else:
-            print("AAAAAAAAAAAAAAAAAAAAa")
+            print("something went wrong")
             exit(0)
         link.click()
 

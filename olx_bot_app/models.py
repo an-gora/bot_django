@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Ad(models.Model):
     title = models.TextField(verbose_name='Ads title', max_length=500)
     # city = models.ForeignKey(City, on_delete=models.PROTECT, default=None)
@@ -23,6 +24,6 @@ class Ad(models.Model):
 
 class Subscriber(models.Model):
     chat_id = models.CharField(unique=True, max_length=150)
-    
+
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.chat_id}'
