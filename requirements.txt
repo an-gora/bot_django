@@ -1,4 +1,4 @@
 selenium==3.141.0
 django==4.0.4
 ipython
-python-telegram-bot==13.12
+
