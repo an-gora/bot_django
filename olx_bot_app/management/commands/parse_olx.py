@@ -9,7 +9,8 @@ from django.core.management.base import BaseCommand
 from olx_bot_app.models import Ad
 
 BASE_URL = 'http://olx.ua'
-AllAds = namedtuple('Ad', 'city')
+AllAds = namedtuple('Ad', 'name,link,price,merts,city,')
+
 
 
 class WaitSuggestion:
@@ -92,7 +93,7 @@ class Olx_parser:
         flat_for_rent[2].click()
 
         div_search_result = d.find_element_by_class_name('listing-grid-container')
-        WebDriverWait(d, 15).until(
+        WebDriverWait(d, 20).until(
             WaitTextChange(div_search_result)
         )
         time.sleep(2)
@@ -109,28 +110,30 @@ class Olx_parser:
         rez = []
         for div in search_divs:
             try:
-                # ad = SingleAd
-                name = div.find_element_by_tag_name('h6').text
-                link = div.find_element_by_class_name('css-1bbgabe').get_attribute('href')
-                price, city, metr = [e.text for e in div.find_elements_by_tag_name('p')]
-                city = city.rpartition(' - ')[0]
-
-                # rez.append({
-                #     # "name": name, "price": price, "addr": address, "metr": metr, "link":link
-                #     "name": Ad.name, "price": Ad.price, "city": Ad.city, "metr": Ad.metr, "link": Ad.link
-                # })
-                ad = Ad(
-                    title=name,
-                    url=link,
-                    price=price,
-                    city=city,
-                    metrs=metr,
-                ).save()
-
-
+                # current_ad = SingleAd
+                SingleAd.name = div.find_element_by_tag_name('h6').text
+                SingleAd.link = div.find_element_by_class_name('css-1bbgabe').get_attribute('href')
+                SingleAd.price, SingleAd.city, SingleAd.metr = [e.text for e in div.find_elements_by_tag_name('p')]
+                SingleAd.city = SingleAd.city.rpartition(' - ')[0]
             except:
                 print(traceback.format_exc())
                 pass
+
+            try:
+                ad = Ad.objects.get(url=SingleAd.link)
+                ad.title=SingleAd.name,
+                ad.price=SingleAd.price,
+                ad.city = SingleAd.city,
+                ad.metrs = SingleAd.metr,
+                ad.save()
+            except Ad.DoesNotExist:
+                ad = Ad(
+                    title=SingleAd.name,
+                    url=SingleAd.link,
+                    price=SingleAd.price,
+                    city=SingleAd.city,
+                    metrs=SingleAd.metr,
+                ).save()
         # return re
 
     # def to_json(self, rez):

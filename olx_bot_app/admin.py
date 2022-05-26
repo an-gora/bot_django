@@ -13,3 +13,4 @@ class AdsAdmin(admin.ModelAdmin):
 
 
 
+

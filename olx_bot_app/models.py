@@ -1,13 +1,5 @@
 from django.db import models
 
-
-# class City(models.Model):
-#     name = models.CharField(max_length=200, unique=False)
-#
-#     def __str__(self):
-#         return self.name
-
-
 class Ad(models.Model):
     title = models.TextField(verbose_name='Ads title', max_length=500)
     # city = models.ForeignKey(City, on_delete=models.PROTECT, default=None)
@@ -15,7 +7,8 @@ class Ad(models.Model):
     price = models.CharField(verbose_name='Price for rent', max_length=150, blank=True)
     # price = models.PositiveIntegerField(verbose_name='Price for appartment', default=None)
     metrs = models.CharField(verbose_name='City', max_length=150, blank=True)
-    url = models.URLField(verbose_name='Url to ad', null=True, blank=True, unique=True)
+    # url = models.URLField(verbose_name='Url to ad')
+    url = models.URLField(verbose_name='Url to ad', unique=True)
 
     class Meta:
         verbose_name = 'Ad'
