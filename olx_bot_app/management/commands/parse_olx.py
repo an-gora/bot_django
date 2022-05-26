@@ -136,10 +136,6 @@ class Olx_parser:
                 ).save()
         # return re
 
-    # def to_json(self, rez):
-    #     with open("found.json", "w") as fp:
-    #         json.dump(rez, fp, indent=4, ensure_ascii=False)
-
     def collect_all(self):
         div_search_result = self.parse_olx()
         self.save_results(div_search_result)
