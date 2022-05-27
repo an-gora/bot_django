@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'olx_bot_app',
+    'olx_parser'
 ]
 
 MIDDLEWARE = [

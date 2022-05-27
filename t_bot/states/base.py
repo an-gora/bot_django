@@ -1,6 +1,5 @@
 from telebot import types
 
-
 class BaseState:
     text = ''
 
